@@ -3,14 +3,14 @@ package show;
 import participants.Actor;
 import participants.Director;
 
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Show {
     private final String title;
     private final int duration;
     private final Director director;
-    private final HashMap<Integer, Actor> actors = new HashMap<>();
+    private final ArrayList<Actor> actors = new ArrayList<>();
 
     public Show(String title, int duration, Director director) {
         if (title == null || title.trim().isEmpty()) {
@@ -40,25 +40,30 @@ public class Show {
         return director;
     }
 
-    public Collection<Actor> getActors() {
-        return actors.values();
+    public List<Actor> getActors() {
+        return actors;
     }
 
     public void addActor(Actor actor) {
-        if(actors.containsKey(actor.hashCode())) {
-            System.out.println("Актер " + actor + " уже участвует в постановке " + title);
-        } else {
-            System.out.println("Актер " + actor + " добавлен в постановку " + title);
-            actors.put(actor.hashCode(), actor);
+        for (Actor currentActor : actors) {
+            if (currentActor.getSurname().equals(actor.getSurname())
+                            && currentActor.getName().equals(actor.getName())
+                            && currentActor.getHeight() == actor.getHeight()) {
+                System.out.println("Актер " + actor + " уже участвует в постановке " + title);
+
+                return;
+            }
         }
+        System.out.println("Актер " + actor + " добавлен в постановку " + title);
+        actors.add(actor);
     }
 
     public void changeActor(Actor actor, String replacementSurname) {
-        for (Integer actorHashCode : actors.keySet()) {
-            Actor currentActor = actors.get(actorHashCode);
-            if(currentActor.getSurname().equals(replacementSurname)) {
-                actors.remove(actorHashCode);
-                actors.put(actor.hashCode(), actor);
+        for (int i = 0; i < actors.size(); i++) {
+            Actor currentActor = actors.get(i);
+            if (currentActor.getSurname().equals(replacementSurname)) {
+                actors.remove(i);
+                actors.add(actor);
                 System.out.println("Замена актера " + currentActor + " на актера " + actor + "в постановке " + title);
                 return;
             }
@@ -67,7 +72,7 @@ public class Show {
     }
 
     public void printActors() {
-        for (Actor actorValue : actors.values()) {
+        for (Actor actorValue : actors) {
             System.out.println(actorValue);
         }
     }

@@ -6,7 +6,7 @@ import show.MusicalShow;
 import show.Opera;
 import types.Gender;
 
-import java.util.Collection;
+import java.util.List;
 
 public class Theatre {
     public static void main(String[] args) {
@@ -53,8 +53,7 @@ public class Theatre {
         opera.printActors();
         ballet.printActors();
 
-        // По заданию нужно заменить актера в постановке, актером из другой постановки. Добавил это обвязку, для получения актера
-        Collection<Actor> operaActors = opera.getActors();
+        List<Actor> operaActors = opera.getActors();
         Actor actorFromOpera = (Actor) operaActors.toArray()[0];
         ballet.changeActor(actorFromOpera, "Каренина");
         ballet.printActors();
